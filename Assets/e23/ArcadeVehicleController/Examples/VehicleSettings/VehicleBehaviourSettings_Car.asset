@@ -23,8 +23,11 @@ MonoBehaviour:
   drift: 0.85
   vehicleBodyTilt: 0
   forwardTilt: 4
+  strafeTilt: 8
   angularDrag: -1
   autoStartEngine: 1
+  looserGroundFollow: 1
+  stayFlatInAir: 0
   turnInAir: 1
   turnWhenStationary: 1
   twoWheelTilt: 0
@@ -32,4 +35,4 @@ MonoBehaviour:
   slideThreshold: 1
   groundMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 1
