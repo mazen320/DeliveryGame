@@ -28,32 +28,34 @@ public class Waypoint : MonoBehaviour
         float angle = Vector3.SignedAngle(forwardDirection, targetDirection, Vector3.up);
 
         float normalizedHorizontalPosition = (angle + 180) / 360;
-        float xPosition = Mathf.Clamp(normalizedHorizontalPosition * Screen.width, Screen.width * edgeBuffer, Screen.width * (1 - edgeBuffer));
 
         Vector3 screenPos;
 
-        // If target is behind, position the waypoint at the bottom edge.
         if (dot < 0)
         {
-            screenPos = new Vector3(xPosition, edgeBuffer * Screen.height, 0);
+            float xPosition = Mathf.Clamp01(normalizedHorizontalPosition + edgeBuffer);
+            screenPos = new Vector3(xPosition * Screen.width, edgeBuffer * Screen.height, 0);
         }
         else
         {
-            // If target is in front, position the waypoint directly on the target or at the left/right edge of the screen if the target is off-screen.
             screenPos = mainCamera.WorldToScreenPoint(target.transform.position);
-            if (screenPos.x < 0 || screenPos.x > Screen.width)  // Off-screen
+            screenPos.x = Mathf.Clamp(screenPos.x, edgeBuffer * Screen.width, (1 - edgeBuffer) * Screen.width);
+
+            if (screenPos.y < 0 || screenPos.y > Screen.height)  // Off-screen
             {
-                screenPos = new Vector3(xPosition, screenPos.y, 0);
+                float xPosition = Mathf.Clamp01(normalizedHorizontalPosition + edgeBuffer);
+                screenPos = new Vector3(xPosition * Screen.width, screenPos.y, 0);
             }
         }
 
         waypointImage.rectTransform.position = screenPos;
-        waypointText.rectTransform.position = screenPos + new Vector3(0, dot < 0 ? -20 : 20, 0);  // Offset the text a bit
+        waypointText.rectTransform.position = screenPos + new Vector3(0, dot < 0 ? -20 : 20, 0);
 
-        // Update distance text
         int distance = Mathf.RoundToInt(Vector3.Distance(player.transform.position, target.transform.position));
         waypointText.text = distance.ToString() + "m";
     }
+
+
     /// <summary>
     /// changes the waypoint target to newPosition
     /// </summary>
