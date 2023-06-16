@@ -1,71 +1,57 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-
-
 public class Waypoint : MonoBehaviour
 {
-    public GameObject[] deliveryPoints;
     public GameObject target;
     public GameObject player;
+    public Image waypointImage;
+    public TextMeshProUGUI waypointText;
 
-    public Image img;
-    public TextMeshProUGUI waypointNumber;
+    private Camera mainCamera;
 
-    private float minX;
-    private float maxX;
-    private float minY; 
-    private float maxY;
+    // This buffer is a percentage of screen width
+    private float edgeBuffer = 0.05f;
 
-    public Vector3 pos;
-    public Vector3 offset;
-
-    // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        mainCamera = Camera.main;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        FindWaypoint();
-    }
+        Vector3 targetDirection = target.transform.position - player.transform.position;
+        Vector3 forwardDirection = mainCamera.transform.forward;
 
-    public void FindWaypoint()
-    {
-        minX = img.GetPixelAdjustedRect().width / 2;
-        maxX = Screen.width - minX;
+        float dot = Vector3.Dot(targetDirection.normalized, forwardDirection);
+        float angle = Vector3.SignedAngle(forwardDirection, targetDirection, Vector3.up);
 
-        minY = img.GetPixelAdjustedRect().height / 2;
-        maxY = Screen.height - minY;
+        float normalizedHorizontalPosition = (angle + 180) / 360;
+        float xPosition = Mathf.Clamp(normalizedHorizontalPosition * Screen.width, Screen.width * edgeBuffer, Screen.width * (1 - edgeBuffer));
 
-        pos = Camera.main.ScreenToWorldPoint(target.transform.position + offset);
+        Vector3 screenPos;
 
-        if (Vector3.Dot((target.transform.position - player.transform.position), transform.forward) < 0)
+        // If target is behind, position the waypoint at the bottom edge.
+        if (dot < 0)
         {
-            if (pos.x < Screen.width / 2)
+            screenPos = new Vector3(xPosition, edgeBuffer * Screen.height, 0);
+        }
+        else
+        {
+            // If target is in front, position the waypoint directly on the target or at the left/right edge of the screen if the target is off-screen.
+            screenPos = mainCamera.WorldToScreenPoint(target.transform.position);
+            if (screenPos.x < 0 || screenPos.x > Screen.width)  // Off-screen
             {
-                pos.x = maxX;
-            }
-            else
-            {
-                pos.x = minX;
+                screenPos = new Vector3(xPosition, screenPos.y, 0);
             }
         }
-        pos.x = Mathf.Clamp(pos.x, minX, maxX);
-        pos.y = Mathf.Clamp(pos.y, minY, maxY);
 
-        img.transform.position = pos;
-        waypointNumber.text = ((int)Vector3.Distance(target.transform.position, player.transform.position)).ToString() + "m";
+        waypointImage.rectTransform.position = screenPos;
+        waypointText.rectTransform.position = screenPos + new Vector3(0, dot < 0 ? -20 : 20, 0);  // Offset the text a bit
 
-    }
-
-    public void UpdateWaypoint(GameObject newPosition)
-    {
-        target = newPosition;
+        // Update distance text
+        float distance = Vector3.Distance(player.transform.position, target.transform.position);
+        waypointText.text = distance.ToString("F2") + "m";
     }
 }
