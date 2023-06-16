@@ -51,7 +51,15 @@ public class Waypoint : MonoBehaviour
         waypointText.rectTransform.position = screenPos + new Vector3(0, dot < 0 ? -20 : 20, 0);  // Offset the text a bit
 
         // Update distance text
-        float distance = Vector3.Distance(player.transform.position, target.transform.position);
-        waypointText.text = distance.ToString("F2") + "m";
+        int distance = Mathf.RoundToInt(Vector3.Distance(player.transform.position, target.transform.position));
+        waypointText.text = distance.ToString() + "m";
+    }
+    /// <summary>
+    /// changes the waypoint target to newPosition
+    /// </summary>
+    /// <param name="newPosition"></param>
+    public void UpdateWaypoint(GameObject newPosition)
+    {
+        target = newPosition;
     }
 }
