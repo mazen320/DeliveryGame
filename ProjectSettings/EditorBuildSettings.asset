@@ -6,9 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/polyperfect/Low Poly Epic City/City - Day.unity
-    guid: 6f4a8e0b02db341dfbd3b02429834ab7
-  - enabled: 1
     path: Assets/Dev.unity
     guid: 21907e209190aad408ff2ad07d859371
   m_configObjects: {}
