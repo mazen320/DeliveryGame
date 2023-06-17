@@ -8,6 +8,9 @@ using UnityEngine.SceneManagement;
 public class GameTimer : MonoBehaviour
 {
     public float currentTime = 90;
+    public GameObject screenPopUp;
+    public GameObject button;
+    public GameObject waypoint;
     [SerializeField] TextMeshProUGUI timerText;
     GameObject CountdownTimer;
 
@@ -22,12 +25,18 @@ public class GameTimer : MonoBehaviour
         if (currentTime > 0)
         {
             currentTime -= Time.deltaTime;
+            button.SetActive(false);
+            screenPopUp.SetActive(false);
+
+            waypoint.SetActive(true);
         }
         else
         {
             currentTime = 0;
-            SceneManager.LoadScene("UI.WinScreenProp");
+            button.SetActive(true);
+            screenPopUp.SetActive(true);
 
+            waypoint.SetActive(false);
         }
 
         if (CountdownTimer.activeSelf == false)
