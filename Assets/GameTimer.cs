@@ -26,6 +26,8 @@ public class GameTimer : MonoBehaviour
         else
         {
             currentTime = 0;
+            SceneManager.LoadScene("UI.WinScreenProp");
+
         }
 
         if (CountdownTimer.activeSelf == false)
@@ -37,13 +39,10 @@ public class GameTimer : MonoBehaviour
 
     }
 
-    //if (currentTime == 0)
-    //{
-    //    SceneManager.LoadScene("UI.WinScreenProp");
-    //}
+   
 
 
-    void TimeUI(float displayingTime)
+void TimeUI(float displayingTime)
     {
         if (displayingTime < 0)
         {
