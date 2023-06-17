@@ -14,14 +14,14 @@ public class Score : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        increaseAmount = 5;
         scoreUI = GameObject.Find("ScoreUI").GetComponent<TextMeshProUGUI>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        scoreUI.text = score.ToString();    
+        scoreUI.text = "Score: " + score.ToString();    
     }
     public void IncreaseScore()
     {
