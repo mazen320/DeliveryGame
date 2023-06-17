@@ -39,8 +39,6 @@ public class WaypointSwitcher : MonoBehaviour
 
     public void DetectReaching()
     {
-
-
         deliverCount = Physics.OverlapSphere(transform.position, maxRange, deliverMask);
         pickupCount = Physics.OverlapSphere(transform.position, maxRange, pickupMask);
 
