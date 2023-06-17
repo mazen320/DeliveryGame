@@ -6,58 +6,58 @@ public class WaypointSwitcher : MonoBehaviour
 {
     public Waypoint waypoint;
 
-    public GameObject[] pickupPoints;
-    public GameObject[] deliveryPoints;
+    public GameObject[] pickupPoints = new GameObject[10];
+    public GameObject[] deliveryPoints = new GameObject[10];
     public bool deliveryComplete;
 
     public KeyCode deliverButton;
+
+    public GameObject currentWaypoint;
+
+    public float maxRange;
+
+    private Collider[] deliverCount;
+    private Collider[] pickupCount;
+
+    public LayerMask deliverMask;
+    public LayerMask pickupMask;
+
+    bool deliver;
+    bool pickup;
     // Start is called before the first frame update
     void Start()
     {
         waypoint.UpdateWaypoint(pickupPoints[Random.Range(0, pickupPoints.Length)]);
-        deliveryComplete = false;   
+        deliveryComplete = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        DetectReaching();
     }
 
-    public void CompleteDelivery()
+    public void DetectReaching()
     {
-        deliveryComplete = true;
-        waypoint.UpdateWaypoint(pickupPoints[Random.Range(0, pickupPoints.Length)]);
-    }
-    public void FindNewDelivery()
-    {
-        deliveryComplete = false;
-        waypoint.UpdateWaypoint(deliveryPoints[Random.Range(0, deliveryPoints.Length)]);
-    }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        foreach (var point in pickupPoints)
+
+        deliverCount = Physics.OverlapSphere(transform.position, maxRange, deliverMask);
+        pickupCount = Physics.OverlapSphere(transform.position, maxRange, pickupMask);
+
+
+        deliver = deliverCount.Length > 0;
+        pickup = pickupCount.Length > 0;
+
+        if (deliver)
         {
-           
-                if (other.tag == point.tag)
-                {
-                    Debug.Log("YOU'VE DELIVERED!");
-                    FindNewDelivery();
-
-                }
-            
+            Debug.Log("YOU REACHED A DELIVERY!");
+            waypoint.UpdateWaypoint(pickupPoints[0].gameObject);
+        }
+        if (pickup)
+        {
+            Debug.Log("YOU REACHED A PICKUP!");
+            waypoint.UpdateWaypoint(deliveryPoints[0].gameObject);
         }
 
-        foreach (var point in deliveryPoints)
-        {
-            if (deliveryComplete == false)
-            {
-                if (other.tag == point.tag && Input.GetKeyDown(deliverButton))
-                {
-                    CompleteDelivery();
-                }
-            }
-        }
     }
 }
