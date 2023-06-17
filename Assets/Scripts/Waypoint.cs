@@ -13,6 +13,7 @@ public class Waypoint : MonoBehaviour
 
     // This buffer is a percentage of screen width
     private float edgeBuffer = 0.05f;
+    public GameObject particleEffect;
 
     void Start()
     {
@@ -25,6 +26,8 @@ public class Waypoint : MonoBehaviour
     {
         Vector3 targetDirection = target.transform.position - player.transform.position;
         Vector3 forwardDirection = mainCamera.transform.forward;
+
+        particleEffect.transform.position = target.transform.position;
 
         float dot = Vector3.Dot(targetDirection.normalized, forwardDirection);
         float angle = Vector3.SignedAngle(forwardDirection, targetDirection, Vector3.up);
