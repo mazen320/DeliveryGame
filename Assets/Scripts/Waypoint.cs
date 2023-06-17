@@ -17,6 +17,8 @@ public class Waypoint : MonoBehaviour
     void Start()
     {
         mainCamera = Camera.main;
+        player = GameObject.FindGameObjectWithTag("Player");
+
     }
 
     void Update()
@@ -53,6 +55,7 @@ public class Waypoint : MonoBehaviour
 
         int distance = Mathf.RoundToInt(Vector3.Distance(player.transform.position, target.transform.position));
         waypointText.text = distance.ToString() + "m";
+
     }
 
 
@@ -60,8 +63,9 @@ public class Waypoint : MonoBehaviour
     /// changes the waypoint target to newPosition
     /// </summary>
     /// <param name="newPosition"></param>
-    public void UpdateWaypoint(GameObject newPosition)
+    public GameObject UpdateWaypoint(GameObject newPosition)
     {
         target = newPosition;
+        return target;
     }
 }
