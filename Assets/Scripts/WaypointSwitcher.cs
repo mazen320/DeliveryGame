@@ -24,11 +24,14 @@ public class WaypointSwitcher : MonoBehaviour
 
     bool deliver;
     bool pickup;
+
+    public Score score;
     // Start is called before the first frame update
     void Start()
     {
         waypoint.UpdateWaypoint(pickupPoints[Random.Range(0, pickupPoints.Length)]);
         deliveryComplete = false;
+        score = GetComponent<Score>();
     }
 
     // Update is called once per frame
@@ -50,6 +53,12 @@ public class WaypointSwitcher : MonoBehaviour
         {
             Debug.Log("YOU REACHED A DELIVERY!");
             waypoint.UpdateWaypoint(pickupPoints[0].gameObject);
+            bool added = false;
+            if (!added)
+            {
+                score.IncreaseScore();
+                added = true;
+            }
         }
         if (pickup)
         {
