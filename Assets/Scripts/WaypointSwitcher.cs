@@ -6,8 +6,8 @@ public class WaypointSwitcher : MonoBehaviour
 {
     public Waypoint waypoint;
 
-    public GameObject[] pickupPoints = new GameObject[10];
-    public GameObject[] deliveryPoints = new GameObject[10];
+    public GameObject[] pickupPoints = new GameObject[20];
+    public GameObject[] deliveryPoints = new GameObject[20];
     public bool deliveryComplete;
 
     public KeyCode deliverButton;
