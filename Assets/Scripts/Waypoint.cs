@@ -21,7 +21,7 @@ public class Waypoint : MonoBehaviour
 
     }
 
-    void Update()
+    public void Update()
     {
         Vector3 targetDirection = target.transform.position - player.transform.position;
         Vector3 forwardDirection = mainCamera.transform.forward;

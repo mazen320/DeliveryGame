@@ -207,7 +207,7 @@ Material:
     - _EnableSunMoonMask: 1
     - _EnableTwinkling: 0
     - _EqHeight: 0.419
-    - _EquatorHeight: 0.6
+    - _EquatorHeight: 0.493
     - _EquatorSmoothness: 0.6
     - _Exposure: 0
     - _Fade: 0.463
@@ -220,9 +220,9 @@ Material:
     - _Float6: 1
     - _FogCat: 1
     - _FogFill: 0
-    - _FogHeight: 0
+    - _FogHeight: 0.909
     - _FogIntensity: 0
-    - _FogSmoothness: 0.01
+    - _FogSmoothness: 0.943
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
