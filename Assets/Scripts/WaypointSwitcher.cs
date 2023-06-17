@@ -79,7 +79,7 @@ public class WaypointSwitcher : MonoBehaviour
         if (deliver && !deliveryUIShown)
         {
             Debug.Log("YOU REACHED A DELIVERY!");
-            waypoint.UpdateWaypoint(pickupPoints[0].gameObject);
+            waypoint.UpdateWaypoint(pickupPoints[Random.Range(0, pickupPoints.Length)]);
             bool added = false;
             if (!added)
             {
@@ -99,7 +99,7 @@ public class WaypointSwitcher : MonoBehaviour
         if (pickup && !pickupUIShown)
         {
             Debug.Log("YOU REACHED A PICKUP!");
-            waypoint.UpdateWaypoint(deliveryPoints[0].gameObject);
+            waypoint.UpdateWaypoint(deliveryPoints[Random.Range(0, deliveryPoints.Length)]);
 
             // Enable the pickup UI Popup and start the timer
             pickupUI.SetActive(true);
