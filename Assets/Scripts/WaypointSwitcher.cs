@@ -73,42 +73,47 @@ public class WaypointSwitcher : MonoBehaviour
         deliverCount = Physics.OverlapSphere(transform.position, maxRange, deliverMask);
         pickupCount = Physics.OverlapSphere(transform.position, maxRange, pickupMask);
 
-        deliver = deliverCount.Length > 0;
-        pickup = pickupCount.Length > 0;
-
-        if (deliver && !deliveryUIShown)
+        foreach (var delivery in deliverCount)
         {
-            Debug.Log("YOU REACHED A DELIVERY!");
-            waypoint.UpdateWaypoint(pickupPoints[Random.Range(0, pickupPoints.Length)]);
-            bool added = false;
-            if (!added)
+            if (delivery.gameObject == waypoint.target && !deliveryUIShown)
             {
-                score.IncreaseScore();
-                added = true;
+                Debug.Log("YOU REACHED A DELIVERY!");
+                waypoint.UpdateWaypoint(pickupPoints[Random.Range(0, pickupPoints.Length)]);
+                bool added = false;
+                if (!added)
+                {
+                    score.IncreaseScore();
+                    added = true;
+                }
+
+                // Enable the delivery UI Popup and start the timer
+                deliveryUI.SetActive(true);
+                popupTimer = popupDuration;
+                deliveryUIShown = true;
+
+                // Disable the pickup UI Popup if it was shown previously
+                pickupUI.SetActive(false);
+                pickupUIShown = false;
             }
-
-            // Enable the delivery UI Popup and start the timer
-            deliveryUI.SetActive(true);
-            popupTimer = popupDuration;
-            deliveryUIShown = true;
-
-            // Disable the pickup UI Popup if it was shown previously
-            pickupUI.SetActive(false);
-            pickupUIShown = false;
         }
-        if (pickup && !pickupUIShown)
+
+        foreach (var pickup in pickupCount)
         {
-            Debug.Log("YOU REACHED A PICKUP!");
-            waypoint.UpdateWaypoint(deliveryPoints[Random.Range(0, deliveryPoints.Length)]);
+            if (pickup.gameObject == waypoint.target && !pickupUIShown)
+            {
+                Debug.Log("YOU REACHED A PICKUP!");
+                waypoint.UpdateWaypoint(deliveryPoints[Random.Range(0, deliveryPoints.Length)]);
 
-            // Enable the pickup UI Popup and start the timer
-            pickupUI.SetActive(true);
-            popupTimer = popupDuration;
-            pickupUIShown = true;
+                // Enable the pickup UI Popup and start the timer
+                pickupUI.SetActive(true);
+                popupTimer = popupDuration;
+                pickupUIShown = true;
 
-            // Disable the delivery UI Popup if it was shown previously
-            deliveryUI.SetActive(false);
-            deliveryUIShown = false;
+                // Disable the delivery UI Popup if it was shown previously
+                deliveryUI.SetActive(false);
+                deliveryUIShown = false;
+            }
         }
     }
+
 }
