@@ -176,7 +176,7 @@ Material:
     - _BumpScale: 1
     - _CloudHeight: 0
     - _CloudsCat: 1
-    - _CloudsHeight: 0.2
+    - _CloudsHeight: -0.059
     - _CloudsIntensity: 1
     - _CloudsLitbySun: 0
     - _CloudsRotation: 100
@@ -261,7 +261,7 @@ Material:
     - _SunIntensity: 1.5
     - _SunRadiusB: 0
     - _SunRadoisA: 0.463
-    - _SunSize: 0.5
+    - _SunSize: 0.503
     - _ToggleSwitch0: 0
     - _TwinklingContrast: 1
     - _TwinklingSpeed: 0.05

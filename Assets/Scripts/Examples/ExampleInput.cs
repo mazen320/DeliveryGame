@@ -1,12 +1,17 @@
 ﻿using UnityEngine;
+using Cinemachine;
 
 namespace e23.VehicleController.Examples
 {
 	public class ExampleInput : MonoBehaviour
 	{
 		[SerializeField] private VehicleBehaviour vehicleBehaviour;
-		
-		[Header("Controls")]
+
+        // Cameras
+        [SerializeField] private CinemachineVirtualCamera cinemachineCamera1;
+        [SerializeField] private CinemachineVirtualCamera cinemachineCamera2;
+
+        [Header("Controls")]
 		[SerializeField] private KeyCode accelerate = KeyCode.W;
 		[SerializeField] private KeyCode brake = KeyCode.S;
 		[SerializeField] private KeyCode steerLeft = KeyCode.A;
@@ -19,12 +24,17 @@ namespace e23.VehicleController.Examples
 		[SerializeField] private KeyCode boost = KeyCode.Space;
 		[SerializeField] private KeyCode oneShotBoost = KeyCode.B;
 
-		[Header("Settings")]
+        // Camera switch key
+        [SerializeField] private KeyCode cameraSwitch = KeyCode.C;
+
+        [Header("Settings")]
 		[SerializeField] private float boostLength = 1f;
 
 		public VehicleBehaviour VehicleBehaviour { get => vehicleBehaviour; set => vehicleBehaviour = value; }
 
-		private void FixedUpdate()
+        private bool isCamera1Active = true;
+
+        private void FixedUpdate()
 		{
 			if (Input.GetKeyDown(KeyCode.E)) { vehicleBehaviour.ToggleEngine(!vehicleBehaviour.EngineRunning, false); }
 			
@@ -44,6 +54,14 @@ namespace e23.VehicleController.Examples
 			if (Input.GetKeyDown(boost)) { VehicleBehaviour.Boost(); }
 			if (Input.GetKeyUp(boost)) { VehicleBehaviour.StopBoost(); }
 			if (Input.GetKey(oneShotBoost)) { VehicleBehaviour.OneShotBoost(boostLength); }
-		}
-	}
+
+            // Camera switch
+            if (Input.GetKeyDown(cameraSwitch))
+            {
+                cinemachineCamera1.gameObject.SetActive(isCamera1Active);
+                cinemachineCamera2.gameObject.SetActive(!isCamera1Active);
+                isCamera1Active = !isCamera1Active;
+            }
+        }
+    }
 }
